@@ -5,20 +5,1129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --brand-purple: #8b5cf6;
+            --brand-blue: #3b82f6;
+            --brand-cyan: #06b6d4;
+            --brand-pink: #ec4899;
+
+            --bg-primary: #0f0a1e;
+            --bg-deeper: #070412;
+            --bg-card: rgba(30, 20, 50, 0.60);
+            --bg-card-hover: rgba(30, 20, 50, 0.80);
+            --bg-header: rgba(15, 10, 30, 0.70);
+            --bg-input: rgba(15, 10, 30, 0.60);
+
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+
+            --border-subtle: rgba(139, 92, 246, 0.30);
+            --border-active: rgba(59, 130, 246, 0.60);
+
+            --scrollbar-track: #070412;
+
+            --tag-bg: rgba(139, 92, 246, 0.20);
+            --tag-bg-hover: rgba(139, 92, 246, 0.35);
+
+            --grad-brand: linear-gradient(135deg, var(--brand-purple), var(--brand-blue));
+            --grad-brand-h: linear-gradient(135deg, var(--brand-purple), var(--brand-blue), var(--brand-cyan));
+            --grad-line: linear-gradient(90deg, var(--brand-purple), var(--brand-blue), var(--brand-cyan));
+
+            --radius-card: 15px;
+            --shadow-card: 0 10px 30px rgba(139, 92, 246, 0.20);
+            --shadow-hover: 0 20px 40px rgba(139, 92, 246, 0.40);
+        }
+
+        .light-mode {
+            --bg-primary: #f0f2f8;
+            --bg-deeper: #e2e6f0;
+            --bg-card: rgba(255, 255, 255, 0.72);
+            --bg-card-hover: rgba(255, 255, 255, 0.92);
+            --bg-header: rgba(240, 242, 248, 0.82);
+            --bg-input: rgba(255, 255, 255, 0.70);
+
+            --text-main: #1e1b4b;
+            --text-muted: #4c5a7a;
+
+            --border-subtle: rgba(139, 92, 246, 0.25);
+            --border-active: rgba(59, 130, 246, 0.50);
+
+            --scrollbar-track: #e2e6f0;
+
+            --tag-bg: rgba(139, 92, 246, 0.12);
+            --tag-bg-hover: rgba(139, 92, 246, 0.22);
+
+            --shadow-card: 0 8px 24px rgba(139, 92, 246, 0.12);
+            --shadow-hover: 0 16px 36px rgba(139, 92, 246, 0.25);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, color-mix(in srgb, var(--brand-purple) 8%, var(--bg-primary)) 25%, color-mix(in srgb, var(--brand-blue) 6%, var(--bg-primary)) 50%, var(--bg-primary) 100%);
+            z-index: -2;
+            transition: background 0.4s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, var(--brand-blue), transparent),
+                radial-gradient(2px 2px at 60% 70%, var(--brand-purple), transparent),
+                radial-gradient(1px 1px at 50% 50%, var(--brand-cyan), transparent),
+                radial-gradient(1px 1px at 80% 10%, var(--brand-pink), transparent);
+            background-size: 200% 200%;
+            animation: particleFloat 20s ease-in-out infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .light-mode body::after {
+            opacity: 0.15;
+        }
+
+        @keyframes particleFloat {
+
+            0%,
+            100% {
+                background-position: 0% 0%, 100% 100%, 50% 50%, 80% 20%;
+            }
+
+            50% {
+                background-position: 100% 100%, 0% 0%, 80% 80%, 20% 80%;
+            }
+        }
+
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--grad-line);
+            z-index: 9999;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px var(--brand-purple);
+        }
+
+        header {
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 2px solid transparent;
+            border-image: var(--grad-line) 1;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.20);
+            animation: slideDown 0.8s ease-out;
+            transition: background 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--grad-brand-h);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.70));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.90));
+            }
+        }
+
+        .nav-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.40), transparent);
+            transition: left 0.5s ease;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            color: var(--brand-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.40);
+            background: rgba(139, 92, 246, 0.10);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        #theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50px;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
+            white-space: nowrap;
+        }
+
+        #theme-toggle:hover {
+            border-color: var(--brand-purple);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.40);
+        }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50px;
+            overflow: hidden;
+            backdrop-filter: blur(6px);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            color: var(--text-muted);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--grad-brand);
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--brand-cyan);
+        }
+
+        section {
+            padding: 4rem 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            position: relative;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        section:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        section:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        section:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: var(--grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--brand-purple), var(--brand-blue), transparent);
+            border-radius: 2px;
+        }
+
+        #profile {
+            padding: 3rem 2rem 1rem;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-image-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            animation: floatProfile 6s ease-in-out infinite;
+        }
+
+        @keyframes floatProfile {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            border: 4px solid var(--bg-primary);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.60),
+                0 0 60px rgba(59, 130, 246, 0.40),
+                inset 0 0 20px rgba(139, 92, 246, 0.20);
+            transition: all 0.4s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.80),
+                0 0 80px rgba(59, 130, 246, 0.60),
+                inset 0 0 30px rgba(139, 92, 246, 0.30);
+        }
+
+        .profile-ring {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--brand-purple);
+            border-right-color: var(--brand-blue);
+            animation: rotateRing 3s linear infinite;
+            z-index: 1;
+        }
+
+        .profile-ring-2 {
+            position: absolute;
+            top: -25px;
+            left: -25px;
+            right: -25px;
+            bottom: -25px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-bottom-color: var(--brand-cyan);
+            border-left-color: var(--brand-pink);
+            animation: rotateRing 4s linear infinite reverse;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes rotateRing {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.20) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulseGlow 3s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        #about p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.4s ease;
+            margin-bottom: 1rem;
+        }
+
+        #about p:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--border-active);
+        }
+
+        #skills ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        #skills ul li {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius-card);
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: default;
+            animation: popIn 0.6s ease-out backwards;
+        }
+
+        #skills ul li:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        #skills ul li:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        #skills ul li:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        #skills ul li:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        #skills ul li:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        #skills ul li:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        #skills ul li:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        #skills ul li:nth-child(8) {
+            animation-delay: 0.40s;
+        }
+
+        #skills ul li:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        #skills ul li:nth-child(10) {
+            animation-delay: 0.50s;
+        }
+
+        #skills ul li::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--grad-brand-h);
+            border-radius: var(--radius-card);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #skills ul li:hover::before {
+            opacity: 1;
+        }
+
+        #skills ul li:hover {
+            transform: translateY(-10px) scale(1.05);
+            color: #fff;
+            box-shadow:
+                0 0 12px var(--brand-purple),
+                0 0 28px rgba(139, 92, 246, 0.50),
+                0 20px 40px rgba(139, 92, 246, 0.40);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.80);
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 2px 0 var(--brand-cyan), -2px 0 var(--brand-pink);
+            }
+
+            25% {
+                text-shadow: -2px 0 var(--brand-cyan), 2px 0 var(--brand-pink);
+            }
+
+            50% {
+                text-shadow: 2px 2px var(--brand-purple), -2px -2px var(--brand-cyan);
+            }
+
+            75% {
+                text-shadow: -1px 0 var(--brand-pink), 1px 0 var(--brand-blue);
+            }
+
+            100% {
+                text-shadow: 2px 0 var(--brand-cyan), -2px 0 var(--brand-pink);
+            }
+        }
+
+        #skills ul li:hover span {
+            animation: glitch 0.4s steps(1) 1;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 2rem;
+            border-radius: var(--radius-card);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .project:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .project:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .project:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .project:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .project::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--grad-brand-h);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-active);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .project-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .project h3 {
+            color: var(--brand-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project:hover h3 {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.60);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            color: var(--text-muted);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .project:hover .tag {
+            background: var(--tag-bg-hover);
+            border-color: var(--border-active);
+            color: var(--text-main);
+        }
+
+        .project p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .project-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .project-btn:hover svg {
+            transform: translateX(3px);
+        }
+
+        .project-btn.primary {
+            background: var(--grad-brand);
+            color: #fff;
+            border: 2px solid transparent;
+        }
+
+        .project-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.20), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-btn.primary:hover::before {
+            left: 100%;
+        }
+
+        .project-btn.primary:hover {
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.50);
+            transform: translateY(-2px);
+        }
+
+        .project-btn.secondary {
+            background: rgba(30, 20, 50, 0.40);
+            color: var(--text-main);
+            border: 2px solid var(--border-subtle);
+        }
+
+        .light-mode .project-btn.secondary {
+            background: rgba(255, 255, 255, 0.40);
+        }
+
+        .project-btn.secondary:hover {
+            background: rgba(139, 92, 246, 0.20);
+            border-color: var(--brand-blue);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.30);
+            transform: translateY(-2px);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius-card);
+            border: 2px solid var(--border-subtle);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .contact-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .contact-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .contact-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.20), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .contact-card:hover::before {
+            left: 100%;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-active);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.20), rgba(59, 130, 246, 0.20));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .contact-icon::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: var(--grad-brand-h);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .contact-card:hover .contact-icon::before {
+            opacity: 1;
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.40), rgba(59, 130, 246, 0.40));
+        }
+
+        .contact-icon svg {
+            color: var(--brand-cyan);
+            transition: all 0.4s ease;
+        }
+
+        .contact-card:hover .contact-icon svg {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .contact-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--brand-blue);
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover h3 {
+            color: var(--brand-cyan);
+        }
+
+        .contact-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin: 0;
+            word-break: break-all;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover p {
+            color: var(--text-main);
+        }
+
+        footer {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.10) 0%, rgba(59, 130, 246, 0.10) 100%);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(90deg, var(--brand-cyan), var(--brand-blue), var(--brand-purple)) 1;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--grad-brand);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.50);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.3s ease;
+            z-index: 500;
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        #back-to-top:hover {
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.70);
+            transform: translateY(-4px);
+        }
+
+        #back-to-top svg {
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--brand-purple), var(--brand-blue));
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--brand-blue), var(--brand-cyan));
+        }
+
+        #mobile-message {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+
+            header,
+            section,
+            footer {
+                display: none;
+            }
+
+            #back-to-top {
+                display: none;
+            }
+
+            #scroll-progress {
+                display: none;
+            }
+
+            #mobile-message {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 2rem;
+                text-align: center;
+            }
+
+            #mobile-message p {
+                font-size: 1.3rem;
+                color: var(--brand-pink);
+                background: var(--bg-card);
+                padding: 2rem;
+                border-radius: var(--radius-card);
+                border: 2px solid rgba(236, 72, 153, 0.50);
+                backdrop-filter: blur(10px);
+            }
+        }
+
+        @media (min-width: 768px) {
+            #mobile-message {
+                display: none;
+            }
+
+            section {
+                max-width: 1200px;
+                margin: 2rem auto;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            #skills ul {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .profile-image-wrapper {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #profile {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
+    <div id="scroll-progress"></div>
+
+    <button id="back-to-top" aria-label="Voltar ao topo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
     <header>
-        <h1>MY PORTFOLIO</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">SOBRE</a></li>
-                <li><a href="#skills">HABILIDADES</a></li>
-                <li><a href="#projects">PROJETOS</a></li>
-                <li><a href="#contact">CONTATOS</a></li>
-            </ul>
-        </nav>
+        <h1 data-i18n="header.title">MY PORTFOLIO</h1>
+        <div class="nav-row">
+            <nav>
+                <ul>
+                    <li><a href="#about" data-i18n="nav.about">SOBRE</a></li>
+                    <li><a href="#skills" data-i18n="nav.skills">HABILIDADES</a></li>
+                    <li><a href="#projects" data-i18n="nav.projects">PROJETOS</a></li>
+                    <li><a href="#contact" data-i18n="nav.contact">CONTATOS</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+                    <button class="lang-btn active" data-lang="pt" onclick="switchLanguage('pt')">PT</button>
+                    <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
+                </div>
+
+                <button id="theme-toggle" aria-label="Alternar tema" onclick="toggleTheme()">
+                    <span id="theme-icon">🌙</span>
+                    <span id="theme-label" data-i18n="theme.dark">Dark</span>
+                </button>
+            </div>
+        </div>
     </header>
 
     <section id="profile">
@@ -32,38 +1141,39 @@
     </section>
 
     <section id="about">
-        <h2>SOBRE MIM</h2>
-        <p>Olá, eu sou a Greice! Programadora por formação (Técnica em Informática para Internet pelo IFRS) e por
-            curiosidade incessante. O que mais me motiva na tecnologia é a sua abrangência – a possibilidade de sempre
-            aprender algo novo e de transformar linhas de código em soluções reais.</p>
-        <p>Atualmente, navego com confiança pelo ecossistema web (HTML, CSS, JS, React) e estou expandindo meu
-            conhecimento para o back-end com Java. Meu horizonte, no entanto, está nos dados: meu objetivo é evoluir da
-            criação de sistemas para a análise inteligente da informação que eles geram.</p>
-        <p>Estou em busca da minha primeira experiência profissional como desenvolvedora, um passo crucial para
-            consolidar minha base técnica e iniciar essa jornada rumo à análise de dados. Nos meus momentos offline,
-            você me encontra levantando pesos, explorando universos cinematográficos ou focando em mirar bem em algum
-            jogo de FPS.</p>
+        <h2 data-i18n="about.title">SOBRE MIM</h2>
+        <p data-i18n="about.p1">Olá, eu sou a Greice! Programadora por formação (Técnica em Informática para Internet
+            pelo IFRS) e por curiosidade incessante. O que mais me motiva na tecnologia é a sua abrangência – a
+            possibilidade de sempre aprender algo novo e de transformar linhas de código em soluções reais.</p>
+        <p data-i18n="about.p2">Atualmente, navego com confiança pelo ecossistema web (HTML, CSS, JS, React) e estou
+            expandindo meu conhecimento para o back-end com Java. Meu horizonte, no entanto, está nos dados: meu
+            objetivo é evoluir da criação de sistemas para a análise inteligente da informação que eles geram.</p>
+        <p data-i18n="about.p3">Estou em busca da minha primeira experiência profissional como desenvolvedora, um passo
+            crucial para consolidar minha base técnica e iniciar essa jornada rumo à análise de dados. Nos meus momentos
+            offline, você me encontra levantando pesos, explorando universos cinematográficos ou focando em mirar bem em
+            algum jogo de FPS.</p>
     </section>
 
     <section id="skills">
-        <h2>HABILIDADES</h2>
+        <h2 data-i18n="skills.title">HABILIDADES</h2>
         <ul>
-            <li>HTML & CSS</li>
-            <li>JavaScript</li>
-            <li>Python</li>
-            <li>React</li>
-            <li>PHP</li>
-            <li>MySQL</li>
-            <li>PostgreSQL</li>
-            <li>Laravel</li>
-            <li>Sequelize</li>
-            <li>Prisma</li>
+            <li><span>HTML &amp; CSS</span></li>
+            <li><span>JavaScript</span></li>
+            <li><span>Python</span></li>
+            <li><span>React</span></li>
+            <li><span>PHP</span></li>
+            <li><span>MySQL</span></li>
+            <li><span>PostgreSQL</span></li>
+            <li><span>Laravel</span></li>
+            <li><span>Sequelize</span></li>
+            <li><span>Prisma</span></li>
         </ul>
     </section>
 
     <section id="projects">
-        <h2>PROJETOS</h2>
+        <h2 data-i18n="projects.title">PROJETOS</h2>
         <div class="projects-grid">
+
             <div class="project">
                 <div class="project-header">
                     <h3>Ellie's Journey - Memory Game</h3>
@@ -73,28 +1183,28 @@
                         <span class="tag">JavaScript</span>
                     </div>
                 </div>
-                <p>"Ellie's Journey" é um jogo da memória imersivo que transporta o jogador para o universo sombrio de
-                    The Last of Us, onde o objetivo é encontrar pares de cartas com personagens e símbolos icônicos da
-                    série. Desenvolvido com HTML5, CSS3 e JavaScript, o projeto apresenta um design temático responsivo,
-                    animações fluidas no virar das cartas e uma lógica de jogo eficiente — incluindo embaralhamento
-                    aleatório, contagem de movimentos e feedback visual/sonoro —, consolidando conceitos fundamentais de
-                    front-end em uma experiência interativa e visualmente cativante.</p>
+                <p data-i18n="projects.ellie">"Ellie's Journey" é um jogo da memória imersivo que transporta o jogador
+                    para o universo sombrio de The Last of Us, onde o objetivo é encontrar pares de cartas com
+                    personagens e símbolos icônicos da série. Desenvolvido com HTML5, CSS3 e JavaScript, o projeto
+                    apresenta um design temático responsivo, animações fluidas no virar das cartas e uma lógica de jogo
+                    eficiente — incluindo embaralhamento aleatório, contagem de movimentos e feedback visual/sonoro —,
+                    consolidando conceitos fundamentais de front-end em uma experiência interativa e visualmente
+                    cativante.</p>
                 <div class="project-links">
                     <a href="https://graxyzr.github.io/memory-game/" target="_blank" class="project-btn primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                        Ver Projeto
+                        <span data-i18n="projects.viewBtn">Ver Projeto</span>
                     </a>
                     <a href="https://github.com/graxyzr/memory-game" target="_blank" class="project-btn secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                            </path>
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                         </svg>
                         GitHub
                     </a>
@@ -105,30 +1215,30 @@
                 <div class="project-header">
                     <h3>Game Quest</h3>
                     <div class="project-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">React.js</span>
-                        <span class="tag">Vite</span>
+                        <span class="tag">HTML</span><span class="tag">CSS</span>
+                        <span class="tag">React.js</span><span class="tag">Vite</span>
                         <span class="tag">JavaScript</span>
                     </div>
                 </div>
-                <p>GameQuest é um web application desenvolvido para ajudar gamers a gerenciar seu backlog de jogos baseado no tempo disponível para jogar. O app permite que o usuário selecione quanto tempo tem livre (15min a 5h+) e automaticamente filtra os jogos que cabem nessa sessão, mostrando apenas aques que são viáveis de jogar naquele momento.</p>
+                <p data-i18n="projects.gamequest">GameQuest é um web application desenvolvido para ajudar gamers a
+                    gerenciar seu backlog de jogos baseado no tempo disponível para jogar. O app permite que o usuário
+                    selecione quanto tempo tem livre (15min a 5h+) e automaticamente filtra os jogos que cabem nessa
+                    sessão, mostrando apenas aqueles que são viáveis de jogar naquele momento.</p>
                 <div class="project-links">
                     <a href="https://game-quest-pi.vercel.app/" target="_blank" class="project-btn primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                        Ver Projeto
+                        <span data-i18n="projects.viewBtn">Ver Projeto</span>
                     </a>
                     <a href="https://github.com/graxyzr/game-quest" target="_blank" class="project-btn secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                            </path>
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                         </svg>
                         GitHub
                     </a>
@@ -144,69 +1254,74 @@
                         <span class="tag">Tailwind CSS</span>
                     </div>
                 </div>
-                <p>O Personal Productivity Vibe Hub é um dashboard inteligente e imersivo que marca sua evolução para o desenvolvimento de elite, combinando o poder do Next.js 14 com uma estética Glassmorphism que reage em tempo real ao clima local. Diferente de projetos convencionais, ele integra segurança avançada e acessibilidade em um layout Bento Grid dinâmico, transformando ferramentas essenciais como Pomodoro e notas em uma experiência visual de alta performance que une utilidade e design de ponta.</p>
+                <p data-i18n="projects.vibehub">O Personal Productivity Vibe Hub é um dashboard inteligente e imersivo
+                    que marca sua evolução para o desenvolvimento de elite, combinando o poder do Next.js 14 com uma
+                    estética Glassmorphism que reage em tempo real ao clima local. Diferente de projetos convencionais,
+                    ele integra segurança avançada e acessibilidade em um layout Bento Grid dinâmico, transformando
+                    ferramentas essenciais como Pomodoro e notas em uma experiência visual de alta performance que une
+                    utilidade e design de ponta.</p>
                 <div class="project-links">
                     <a href="https://personal-vibe-hub.vercel.app/" target="_blank" class="project-btn primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                        Ver Projeto
+                        <span data-i18n="projects.viewBtn">Ver Projeto</span>
                     </a>
-                    <a href="https://github.com/graxyzr/personal-vibe-hub" target="_blank" class="project-btn secondary">
+                    <a href="https://github.com/graxyzr/personal-vibe-hub" target="_blank"
+                        class="project-btn secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                            </path>
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                         </svg>
                         GitHub
                     </a>
                 </div>
             </div>
-            
-             <div class="project">
+
+            <div class="project">
                 <div class="project-header">
                     <h3>Movie Matchmaker</h3>
                     <div class="project-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">React.js</span>
-                        <span class="tag">Node.js</span>
-                        <span class="tag">Express.js</span>
+                        <span class="tag">HTML</span><span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span><span class="tag">React.js</span>
+                        <span class="tag">Node.js</span><span class="tag">Express.js</span>
                     </div>
                 </div>
-                <p>O Movie Matchmaker é um aplicativo web de recomendação de filmes que funciona como um "casamenteiro" entre usuários e filmes, utilizando um sistema inspirado no Tinder para criar matches cinematográficos personalizados.</p>
+                <p data-i18n="projects.moviematch">O Movie Matchmaker é um aplicativo web de recomendação de filmes que
+                    funciona como um "casamenteiro" entre usuários e filmes, utilizando um sistema inspirado no Tinder
+                    para criar matches cinematográficos personalizados.</p>
                 <div class="project-links">
                     <a href="https://movie-matchmaker-iota.vercel.app/" target="_blank" class="project-btn primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                        Ver Projeto
+                        <span data-i18n="projects.viewBtn">Ver Projeto</span>
                     </a>
                     <a href="https://github.com/graxyzr/movie-matchmaker" target="_blank" class="project-btn secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                            </path>
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                         </svg>
                         GitHub
                     </a>
                 </div>
             </div>
+
         </div>
     </section>
 
     <section id="contact">
-        <h2>CONTATOS</h2>
+        <h2 data-i18n="contact.title">CONTATOS</h2>
         <div class="contact-grid">
+
             <a href="mailto:greiceeszz@gmail.com" class="contact-card">
                 <div class="contact-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -243,34 +1358,133 @@
                 <h3>GitHub</h3>
                 <p>@graxyzr</p>
             </a>
+
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 GRAXYZR. Todos os direitos reservados.</p>
+        <p data-i18n="footer.copy">&copy; 2026 GRAXYZR. Todos os direitos reservados.</p>
     </footer>
 
     <div id="mobile-message">
-        <p>Este portfólio não está disponível em dispositivos móveis. Por favor, acesse em um tablet ou computador.</p>
+        <p data-i18n="mobile.msg">Este portfólio não está disponível em dispositivos móveis. Por favor, acesse em um
+            tablet ou computador.</p>
     </div>
 
     <script>
-        document.getElementById('contact-form').addEventListener('submit', function (e) {
-            const btn = document.getElementById('submit-btn');
-            const btnText = btn.querySelector('.btn-text');
-            const btnLoading = btn.querySelector('.btn-loading');
+        const translations = {
+            pt: {
+                "header.title": "MY PORTFOLIO",
+                "nav.about": "SOBRE",
+                "nav.skills": "HABILIDADES",
+                "nav.projects": "PROJETOS",
+                "nav.contact": "CONTATOS",
+                "theme.dark": "Dark",
+                "theme.light": "Light",
+                "about.title": "SOBRE MIM",
+                "about.p1": "Olá, eu sou a Greice! Programadora por formação (Técnica em Informática para Internet pelo IFRS) e por curiosidade incessante. O que mais me motiva na tecnologia é a sua abrangência – a possibilidade de sempre aprender algo novo e de transformar linhas de código em soluções reais.",
+                "about.p2": "Atualmente, navego com confiança pelo ecossistema web (HTML, CSS, JS, React) e estou expandindo meu conhecimento para o back-end com Java. Meu horizonte, no entanto, está nos dados: meu objetivo é evoluir da criação de sistemas para a análise inteligente da informação que eles geram.",
+                "about.p3": "Estou em busca da minha primeira experiência profissional como desenvolvedora, um passo crucial para consolidar minha base técnica e iniciar essa jornada rumo à análise de dados. Nos meus momentos offline, você me encontra levantando pesos, explorando universos cinematográficos ou focando em mirar bem em algum jogo de FPS.",
+                "skills.title": "HABILIDADES",
+                "projects.title": "PROJETOS",
+                "projects.viewBtn": "Ver Projeto",
+                "projects.ellie": '"Ellie\'s Journey" é um jogo da memória imersivo que transporta o jogador para o universo sombrio de The Last of Us, onde o objetivo é encontrar pares de cartas com personagens e símbolos icônicos da série. Desenvolvido com HTML5, CSS3 e JavaScript, o projeto apresenta um design temático responsivo, animações fluidas no virar das cartas e uma lógica de jogo eficiente — incluindo embaralhamento aleatório, contagem de movimentos e feedback visual/sonoro —, consolidando conceitos fundamentais de front-end em uma experiência interativa e visualmente cativante.',
+                "projects.gamequest": "GameQuest é um web application desenvolvido para ajudar gamers a gerenciar seu backlog de jogos baseado no tempo disponível para jogar. O app permite que o usuário selecione quanto tempo tem livre (15min a 5h+) e automaticamente filtra os jogos que cabem nessa sessão, mostrando apenas aqueles que são viáveis de jogar naquele momento.",
+                "projects.vibehub": "O Personal Productivity Vibe Hub é um dashboard inteligente e imersivo que marca sua evolução para o desenvolvimento de elite, combinando o poder do Next.js 14 com uma estética Glassmorphism que reage em tempo real ao clima local. Diferente de projetos convencionais, ele integra segurança avançada e acessibilidade em um layout Bento Grid dinâmico, transformando ferramentas essenciais como Pomodoro e notas em uma experiência visual de alta performance que une utilidade e design de ponta.",
+                "projects.moviematch": 'O Movie Matchmaker é um aplicativo web de recomendação de filmes que funciona como um "casamenteiro" entre usuários e filmes, utilizando um sistema inspirado no Tinder para criar matches cinematográficos personalizados.',
+                "contact.title": "CONTATOS",
+                "footer.copy": "© 2026 GRAXYZR. Todos os direitos reservados.",
+                "mobile.msg": "Este portfólio não está disponível em dispositivos móveis. Por favor, acesse em um tablet ou computador."
+            },
+            en: {
+                "header.title": "MY PORTFOLIO",
+                "nav.about": "ABOUT",
+                "nav.skills": "SKILLS",
+                "nav.projects": "PROJECTS",
+                "nav.contact": "CONTACT",
+                "theme.dark": "Dark",
+                "theme.light": "Light",
+                "about.title": "ABOUT ME",
+                "about.p1": "Hi, I'm Greice! A developer by training (Technical Degree in Internet Computing at IFRS) and by relentless curiosity. What motivates me most about technology is its breadth — the possibility of always learning something new and turning lines of code into real-world solutions.",
+                "about.p2": "I currently navigate the web ecosystem with confidence (HTML, CSS, JS, React) and am expanding my knowledge to back-end development with Java. My horizon, however, lies in data: my goal is to grow from building systems to intelligently analysing the information they generate.",
+                "about.p3": "I'm looking for my first professional experience as a developer — a crucial step to consolidate my technical foundation and kick off this journey toward data analysis. In my offline moments you'll find me lifting weights, exploring cinematic universes, or carefully lining up shots in an FPS.",
+                "skills.title": "SKILLS",
+                "projects.title": "PROJECTS",
+                "projects.viewBtn": "View Project",
+                "projects.ellie": '"Ellie\'s Journey" is an immersive memory game that transports the player into the dark universe of The Last of Us, where the goal is to find pairs of cards featuring iconic characters and symbols from the series. Built with HTML5, CSS3 and JavaScript, the project features a responsive thematic design, smooth card-flip animations and efficient game logic — including random shuffling, move counting, and visual/audio feedback — consolidating core front-end concepts in an interactive and visually captivating experience.',
+                "projects.gamequest": "GameQuest is a web application built to help gamers manage their game backlog based on available playtime. The app lets users select how much free time they have (15 min to 5h+) and automatically filters games that fit the session, showing only those that are realistically playable at that moment.",
+                "projects.vibehub": "The Personal Productivity Vibe Hub is an intelligent and immersive dashboard that marks an evolution toward elite-level development, combining the power of Next.js 14 with a Glassmorphism aesthetic that reacts in real time to local weather. Unlike conventional projects, it integrates advanced security and accessibility into a dynamic Bento Grid layout, turning essential tools like Pomodoro and notes into a high-performance visual experience that blends utility with cutting-edge design.",
+                "projects.moviematch": 'Movie Matchmaker is a film recommendation web app that acts as a "matchmaker" between users and movies, using a Tinder-inspired system to create personalised cinematic matches.',
+                "contact.title": "CONTACT",
+                "footer.copy": "© 2026 GRAXYZR. All rights reserved.",
+                "mobile.msg": "This portfolio is not available on mobile devices. Please access it on a tablet or desktop."
+            }
+        };
 
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline';
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
+        let currentLang = 'pt';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key] !== undefined) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.documentElement.lang = lang === 'pt' ? 'pt-br' : 'en';
+
+            const isLight = document.body.classList.contains('light-mode');
+            updateThemeLabel(isLight);
+        }
+
+        function updateThemeLabel(isLight) {
+            const icon = document.getElementById('theme-icon');
+            const label = document.getElementById('theme-label');
+            if (isLight) {
+                icon.textContent = '☀️';
+                label.textContent = translations[currentLang]['theme.light'];
+            } else {
+                icon.textContent = '🌙';
+                label.textContent = translations[currentLang]['theme.dark'];
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-mode');
+            updateThemeLabel(isLight);
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        (function () {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'light') {
+                document.body.classList.add('light-mode');
+                updateThemeLabel(true);
+            }
+        })();
+
+        const progressBar = document.getElementById('scroll-progress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+        }, { passive: true });
+
+        const backBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            backBtn.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+        backBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
 
-
 </html>
-
-
-
-
